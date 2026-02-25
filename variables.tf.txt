@@ -1,5 +1,5 @@
 variable "resource_group_name" {
-  default = "ubuntu-vm-rg"
+  default = "azurevm-ubuntu-rg"
 }
 
 variable "location" {
@@ -15,7 +15,7 @@ variable "vm_size" {
 }
 
 variable "admin_username" {
-  default = "azureuser"
+  default = "admin"
 }
 
 variable "ssh_public_key_path" {
@@ -31,7 +31,7 @@ variable "allowed_ssh_cidr" {
 variable "create_public_ip" {
   description = "Whether to create public IP"
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "use_cloud_init" {
