@@ -101,9 +101,10 @@ resource "azurerm_linux_virtual_machine" "vm" {
 
   disable_password_authentication = true
 
+  # Use relative path for SSH public key
   admin_ssh_key {
     username   = var.admin_username
-    public_key = file(var.ssh_public_key_path)  # SSH key is required
+    public_key = file("${path.module}/id_rsa.pub")  # copy your public key into module folder
   }
 
   os_disk {
