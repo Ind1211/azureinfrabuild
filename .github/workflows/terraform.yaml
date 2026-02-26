@@ -3,7 +3,7 @@ name: Terraform Deployment
 on:
   push:
     branches:
-      - main
+      - master
   pull_request:
 
 jobs:
@@ -24,8 +24,8 @@ jobs:
         run: terraform init
         env:
           TF_WORKSPACE: default
-          TF_CLOUD_ORGANIZATION: YOUR_TFC_ORG
-          TF_CLOUD_WORKSPACE: YOUR_TFC_WORKSPACE
+          TF_CLOUD_ORGANIZATION: TerraformCloud1211
+          TF_CLOUD_WORKSPACE: azureinfrabuild
           ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
           ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
           ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
@@ -35,20 +35,20 @@ jobs:
         run: terraform plan
         env:
           TF_WORKSPACE: default
-          TF_CLOUD_ORGANIZATION: YOUR_TFC_ORG
-          TF_CLOUD_WORKSPACE: YOUR_TFC_WORKSPACE
+          TF_CLOUD_ORGANIZATION: TerraformCloud1211
+          TF_CLOUD_WORKSPACE: azureinfrabuild
           ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
           ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
           ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
           ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
 
       - name: Terraform Apply
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/master'
         run: terraform apply -auto-approve
         env:
           TF_WORKSPACE: default
-          TF_CLOUD_ORGANIZATION: YOUR_TFC_ORG
-          TF_CLOUD_WORKSPACE: YOUR_TFC_WORKSPACE
+          TF_CLOUD_ORGANIZATION: TerraformCloud1211
+          TF_CLOUD_WORKSPACE: azureinfrabuild
           ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
           ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
           ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
