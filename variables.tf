@@ -1,0 +1,41 @@
+variable "resource_group_name" {
+  default = "azurevm-ubuntu-rg"
+}
+
+variable "location" {
+  default = "East US"
+}
+
+variable "vm_name" {
+  default = "ubuntu-vm"
+}
+
+variable "vm_size" {
+  default = "Standard_B2s"
+}
+
+variable "admin_username" {
+  default = "admin"
+}
+
+variable "ssh_public_key_path" {
+  description = "Path to SSH public key"
+  default     = "~/.ssh/id_rsa.pub"
+}
+
+variable "allowed_ssh_cidr" {
+  description = "CIDR allowed to SSH"
+  default     = "0.0.0.0/0"
+}
+
+variable "create_public_ip" {
+  description = "Whether to create public IP"
+  type        = bool
+  default     = false
+}
+
+variable "use_cloud_init" {
+  description = "Enable cloud-init bootstrap"
+  type        = bool
+  default     = false
+}
