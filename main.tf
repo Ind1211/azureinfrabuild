@@ -1,6 +1,13 @@
 terraform {
   required_version = ">= 1.3.0"
 
+  cloud {
+    organization = "TerraformCloud1211"
+
+    workspaces {
+      name = "azureinfrabuild"
+    }
+  }
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
