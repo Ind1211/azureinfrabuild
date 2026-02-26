@@ -15,7 +15,7 @@ variable "vm_size" {
 }
 
 variable "admin_username" {
-  default = "admin"
+  default = "administrator"
 }
 
 variable "ssh_public_key_path" {
