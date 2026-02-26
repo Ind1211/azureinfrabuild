@@ -108,10 +108,10 @@ resource "azurerm_linux_virtual_machine" "vm" {
 
   disable_password_authentication = true
 
-  admin_ssh_key {
-    username   = var.admin_username
-    public_key = file(var.ssh_public_key_path)
-  }
+  #admin_ssh_key {
+   # username   = var.admin_username
+    #public_key = file(var.ssh_public_key_path)
+  #}
 
   os_disk {
     caching              = "ReadWrite"
@@ -125,5 +125,5 @@ resource "azurerm_linux_virtual_machine" "vm" {
     version   = "latest"
   }
 
-  custom_data = var.use_cloud_init ? filebase64("${path.module}/cloud-init.yaml") : null
+  #custom_data = var.use_cloud_init ? filebase64("${path.module}/cloud-init.yaml") : null
 }
