@@ -1,10 +1,14 @@
+
+
 name: Terraform Deployment
 
 on:
   push:
     branches:
-      - master
+      - master  # or your default branch
   pull_request:
+    branches:
+      - master  # or your default branch
 
 jobs:
   terraform:
@@ -38,11 +42,10 @@ jobs:
           ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
 
       - name: Terraform Apply
-        if: github.ref == 'refs/heads/master'
+        if: github.ref == 'refs/heads/master'  # Only run apply on master branch
         run: terraform apply -auto-approve
         env:
-          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_SECRET }}
+          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
           ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
           ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
           ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-
