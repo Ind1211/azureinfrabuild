@@ -40,20 +40,9 @@ resource "azurerm_subnet" "subnet" {
   address_prefixes     = ["10.0.1.0/24"]
 }
 
-#resource "azurerm_network_interface" "nic" {
- # name                = "${var.vm_name}-nic"
-  #location            = azurerm_resource_group.rg.location
-  #resource_group_name = azurerm_resource_group.rg.name
-
-  #ip_configuration {
-   # name                          = "internal"
-    #subnet_id                     = azurerm_subnet.subnet.id
-    #private_ip_address_allocation = "Dynamic"
-    # Remove public IP association
-    # public_ip_address_id = null
-  #}
-#}
-
+# -----------------------
+# Network Security Group (NSG)
+# -----------------------
 
 resource "azurerm_network_security_group" "nsg" {
   name                = "${var.vm_name}-nsg"
@@ -68,10 +57,14 @@ resource "azurerm_network_security_group" "nsg" {
     protocol                   = "Tcp"
     source_port_range          = "*"
     destination_port_range     = "22"
-    source_address_prefix      = var.allowed_ssh_cidr
+    source_address_prefix      = azurerm_subnet.subnet.address_prefixes[0]  # allow all private IPs in subnet
     destination_address_prefix = "*"
   }
 }
+
+# -----------------------
+# Network Interface
+# -----------------------
 
 resource "azurerm_network_interface" "nic" {
   name                = "${var.vm_name}-nic"
@@ -82,7 +75,7 @@ resource "azurerm_network_interface" "nic" {
     name                          = "internal"
     subnet_id                     = azurerm_subnet.subnet.id
     private_ip_address_allocation = "Dynamic"
-    public_ip_address_id          = var.create_public_ip ? azurerm_public_ip.public_ip[0].id : null
+    public_ip_address_id          = null  # no public IP
   }
 }
 
@@ -108,10 +101,10 @@ resource "azurerm_linux_virtual_machine" "vm" {
 
   disable_password_authentication = true
 
-  #admin_ssh_key {
-   # username   = var.admin_username
-    #public_key = file(var.ssh_public_key_path)
-  #}
+  admin_ssh_key {
+    username   = var.admin_username
+    public_key = file(var.ssh_public_key_path)  # SSH key is required
+  }
 
   os_disk {
     caching              = "ReadWrite"
@@ -124,6 +117,4 @@ resource "azurerm_linux_virtual_machine" "vm" {
     sku       = "22_04-lts"
     version   = "latest"
   }
-
-  #custom_data = var.use_cloud_init ? filebase64("${path.module}/cloud-init.yaml") : null
 }
