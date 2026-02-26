@@ -14,7 +14,7 @@ variable "vm_size" {
   default = "Standard_B2s"
 }
 
-variable "admin_username" {
+variable "administrator_username" {
   default = "administrator"
 }
 
