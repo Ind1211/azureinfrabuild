@@ -6,6 +6,10 @@ terraform {
       source  = "hashicorp/azurerm"
       version = "~> 3.0"
     }
+    tls = {
+      source  = "hashicorp/tls"
+      version = "~> 4.0"
+    }
   }
 }
 
@@ -85,6 +89,21 @@ resource "azurerm_network_interface_security_group_association" "assoc" {
 }
 
 # -----------------------
+# SSH Key Generation (TLS)
+# -----------------------
+
+resource "tls_private_key" "ssh_key" {
+  algorithm = "RSA"
+  rsa_bits  = 4096
+}
+
+# Optional: Output the private key so you can SSH later
+output "private_key_pem" {
+  value     = tls_private_key.ssh_key.private_key_pem
+  sensitive = true
+}
+
+# -----------------------
 # Linux VM
 # -----------------------
 
@@ -101,10 +120,9 @@ resource "azurerm_linux_virtual_machine" "vm" {
 
   disable_password_authentication = true
 
-  # Use relative path for SSH public key
   admin_ssh_key {
     username   = var.admin_username
-    public_key = file("${path.module}/id_rsa.pub")  # copy your public key into module folder
+    public_key = tls_private_key.ssh_key.public_key_openssh
   }
 
   os_disk {
