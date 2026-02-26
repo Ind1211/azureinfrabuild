@@ -12,7 +12,7 @@ on:
 
 jobs:
   terraform:
-    name: 'Terraform Plan & Apply'
+    name: 'Terraform Plan'
     runs-on: ubuntu-latest
 
     steps:
@@ -35,15 +35,6 @@ jobs:
 
       - name: Terraform Plan
         run: terraform plan
-        env:
-          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-          ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
-          ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-          ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-
-      - name: Terraform Apply
-        if: github.ref == 'refs/heads/master'  # Only run apply on master branch
-        run: terraform apply -auto-approve
         env:
           ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
           ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
