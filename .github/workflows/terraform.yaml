@@ -1,20 +1,20 @@
-name: Terraform Destroy All Resources
+name: Terraform Sync State with Azure
 
 on:
   push:
     branches:
-      - master  # or your default branch
+      - master  # Trigger when changes are pushed to the main branch
   pull_request:
     branches:
-      - master  # or your default branch
+      - master  # Trigger when pull requests are made to the main branch
 
 jobs:
   terraform:
-    name: 'Terraform Destroy All Resources'
+    name: 'Terraform State Refresh'
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repo
+      - name: Checkout GitHub Repo
         uses: actions/checkout@v3
 
       - name: Setup Terraform
@@ -31,9 +31,8 @@ jobs:
           ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
           ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
 
-      - name: Terraform Destroy All Resources
-        run: |
-          terraform destroy -auto-approve -input=false
+      - name: Terraform State Refresh
+        run: terraform refresh -input=false
         env:
           ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
           ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
