@@ -10,23 +10,22 @@ jobs:
   terraform:
     runs-on: ubuntu-latest
 
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
     steps:
-      # Checkout repo
-      - name: Checkout Repository
+      # 1️⃣ Checkout repository with credentials
+      - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          persist-credentials: true
 
-      # Setup Terraform
+      # 2️⃣ Setup Terraform
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: "latest"
           terraform_wrapper: true
 
-      # Terraform Format & Auto-Commit
-      - name: Terraform Format
+      # 3️⃣ Terraform Format & Auto-Commit
+      - name: Terraform Format & Auto-Commit
         run: |
           terraform fmt -recursive
           if ! git diff --exit-code > /dev/null; then
@@ -35,19 +34,19 @@ jobs:
             git config user.email "github-actions[bot]@users.noreply.github.com"
             git add .
             git commit -m "chore: format Terraform files via CI"
-            git push https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git HEAD:${GITHUB_REF_NAME}
+            git push origin HEAD
           else
             echo "All Terraform files are properly formatted."
           fi
 
-      # Initialize Terraform
+      # 4️⃣ Initialize Terraform
       - name: Terraform Init
         run: terraform init -input=false
 
-      # Validate Terraform
+      # 5️⃣ Validate Terraform configuration
       - name: Terraform Validate
         run: terraform validate
 
-      # Optional: Plan
+      # 6️⃣ Optional: Terraform Plan
       - name: Terraform Plan
         run: terraform plan -input=false
