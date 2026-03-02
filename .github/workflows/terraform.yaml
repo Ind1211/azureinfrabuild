@@ -21,7 +21,7 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: 1.7.6  # Change to your version
+          terraform_version: latest  # Change to your version
 
       # 3️⃣ Terraform Format Check & Auto-fix
       - name: Terraform Format
