@@ -3,7 +3,7 @@ name: Terraform CI
 on:
   pull_request: {}
   push:
-    branches: 
+    branches:
         - master
 
 jobs:
@@ -11,42 +11,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout repository with credentials
-      - name: Checkout repository
+      # Checkout repository
+      - name: Checkout Repository
         uses: actions/checkout@v4
-        with:
-          persist-credentials: true
 
-      # 2️⃣ Setup Terraform
+      # Setup Terraform
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: "latest"
           terraform_wrapper: true
 
-      # 3️⃣ Terraform Format & Auto-Commit
-      - name: Terraform Format & Auto-Commit
-        run: |
-          terraform fmt -recursive
-          if ! git diff --exit-code > /dev/null; then
-            echo "Terraform files were reformatted. Committing changes..."
-            git config user.name "github-actions[bot]"
-            git config user.email "github-actions[bot]@users.noreply.github.com"
-            git add .
-            git commit -m "chore: format Terraform files via CI"
-            git push origin HEAD
-          else
-            echo "All Terraform files are properly formatted."
-          fi
+      # Terraform Format Check (fails CI if formatting is off)
+      - name: Terraform Format Check
+        run: terraform fmt -check -recursive
 
-      # 4️⃣ Initialize Terraform
+      # Initialize Terraform
       - name: Terraform Init
         run: terraform init -input=false
 
-      # 5️⃣ Validate Terraform configuration
+      # Validate Terraform
       - name: Terraform Validate
         run: terraform validate
 
-      # 6️⃣ Optional: Terraform Plan
+      # Optional: Terraform Plan
       - name: Terraform Plan
         run: terraform plan -input=false
