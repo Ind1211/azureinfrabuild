@@ -3,7 +3,7 @@ variable "resource_group_name" {
 }
 
 variable "location" {
-  default = "East US2"
+  default = "East US 2"
 }
 
 variable "vm_name" {

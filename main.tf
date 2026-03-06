@@ -2,7 +2,7 @@ provider "azurerm" {
   features {}
   subscription_id = "19d29441-5197-430a-8222-5c6ff754c19c"
   client_id       = "6bff5a3c-9fd7-4c26-b1f4-abb742401a69"
-  client_secret   = "LXD8Q~RD9dqb9LAxM4XA7qeHrBUgFQ_KVUxZXc57"
+  client_secret   = "7ki8Q~Bb6epcGCig1cOa3kpePPE3Dyi.WVEa3ams"
   tenant_id       = "d78f5646-c67d-4733-aefe-813d1b496ae9"
 }
 
@@ -11,8 +11,8 @@ variable "prefix" {
 }
 
 resource "azurerm_resource_group" "vm-rg" {
-  name     = "var.resource_group_name"
-  location = "var.location"
+  name     = var.resource_group_name
+  location = var.location
 }
 
 resource "azurerm_virtual_network" "main" {
@@ -42,11 +42,11 @@ resource "azurerm_network_interface" "main" {
 }
 
 resource "azurerm_virtual_machine" "main" {
-  name                  = "var.vm_name"
+  name                  = var.vm_name
   location              = var.location
   resource_group_name   = var.resource_group_name
   network_interface_ids = [azurerm_network_interface.main.id]
-  vm_size               = "var.vm_size"
+  vm_size               = var.vm_size
 
   # Uncomment this line to delete the OS disk automatically when deleting the VM
   # delete_os_disk_on_termination = true
