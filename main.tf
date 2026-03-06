@@ -6,18 +6,14 @@ provider "azurerm" {
   tenant_id       = "d78f5646-c67d-4733-aefe-813d1b496ae9"
 }
 
-variable "prefix" {
-  default = "tfvmex"
-}
-
 resource "azurerm_resource_group" "vm-rg" {
   name     = var.resource_group_name
   location = var.location
 }
 
 resource "azurerm_virtual_network" "main" {
-  name                = "${var.prefix}-network"
-  address_space       = ["10.0.0.0/16"]
+  name                = var.vm_name
+  address_space       = var.azurerm_virtual_network_address_space
   location            = var.location
   resource_group_name = var.resource_group_name
 }
@@ -30,7 +26,7 @@ resource "azurerm_subnet" "internal" {
 }
 
 resource "azurerm_network_interface" "main" {
-  name                = "${var.prefix}-nic"
+  name                = var.azurerm_network_interface
   location            = var.location
   resource_group_name = var.resource_group_name
 
