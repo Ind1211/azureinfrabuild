@@ -28,7 +28,7 @@ variable "azurevm_rg" {
 variable "azurevm_location" {
     description = "The Azure region in which to create the resources."
     type        = string
-    default     = "West Europe"
+    default     = "West US 3"
 }
  
 variable "azurevm_virtual_network" {
