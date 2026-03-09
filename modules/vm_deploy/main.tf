@@ -1,11 +1,11 @@
 
 resource "azurerm_resource_group" "example" {
-  name     = "var.azurevm_rg"
-  location = "var.azurevm_location"
+  name     = var.azurevm_rg
+  location = var.azurevm_location
 }
 
 resource "azurerm_virtual_network" "main" {
-  name                = "var.azurevm_virtual_network"
+  name                = var.azurevm_virtual_network
   address_space       = ["10.0.0.0/16"]
   location            = azurerm_resource_group.example.location
   resource_group_name = azurerm_resource_group.example.name
@@ -19,7 +19,7 @@ resource "azurerm_subnet" "internal" {
 }
 
 resource "azurerm_network_interface" "main" {
-  name                = "var.azurevm_network_interface"
+  name                = var.azurevm_network_interface
   location            = azurerm_resource_group.example.location
   resource_group_name = azurerm_resource_group.example.name
 
@@ -31,7 +31,7 @@ resource "azurerm_network_interface" "main" {
 }
 
 resource "azurerm_virtual_machine" "main" {
-  name                  = "var.azurevm_virtual_machine"
+  name                  = var.azurevm_virtual_machine
   location              = azurerm_resource_group.example.location
   resource_group_name   = azurerm_resource_group.example.name
   network_interface_ids = [azurerm_network_interface.main.id]
