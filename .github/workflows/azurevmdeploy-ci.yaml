@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'azure-vm/**'
+      - 'modules/vm_deploy/**'
 
 jobs:
   terraform:
