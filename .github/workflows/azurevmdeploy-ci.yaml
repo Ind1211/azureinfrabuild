@@ -25,13 +25,17 @@ jobs:
 
       - name: Terraform Init
         run: terraform init
+        working-directory: ./azure-vm
 
       - name: Terraform Validate
         run: terraform validate
+        working-directory: ./azure-vm
 
       - name: Terraform Plan
-        run: terraform plan 
+        run: terraform plan
+        working-directory: ./azure-vm
 
       - name: Terraform Apply (only on master branch)
         if: github.ref == 'refs/heads/master'
         run: terraform apply -auto-approve
+        working-directory: ./azure-vm
