@@ -1,9 +1,8 @@
 name: Terraform Azure Deployment
-
-#on:
-  #push:
-    #branches:
-    #  - master
+on:
+   push:
+     paths:
+       - azure-vm
   
 
 jobs:
