@@ -1,9 +1,9 @@
-name: Terraform Azure Deployment
+name: Terraform Azure VM Deployment
+
 on:
-   push:
-     paths:
-       - 'azure-vm/**'
-  
+  push:
+    paths:
+      - 'azure-vm/**'
 
 jobs:
   terraform:
@@ -24,18 +24,18 @@ jobs:
         uses: hashicorp/setup-terraform@v3
 
       - name: Terraform Init
-        run: terraform init
         working-directory: ./azure-vm
+        run: terraform init
 
       - name: Terraform Validate
-        run: terraform validate
         working-directory: ./azure-vm
+        run: terraform validate
 
       - name: Terraform Plan
+        working-directory: ./azure-vm
         run: terraform plan
-        working-directory: ./azure-vm
 
-      - name: Terraform Apply (only on master branch)
+      - name: Terraform Apply
         if: github.ref == 'refs/heads/master'
-        run: terraform apply -auto-approve
         working-directory: ./azure-vm
+        run: terraform apply -auto-approve
