@@ -1,20 +1,30 @@
-name: Terraform AKS Deployment
+name: Terraform AKS CI
 
 on:
   push:
+    branches:
+      - main
+      - master
     paths:
       - 'aks-cluster/**'
       - '.github/workflows/**'
 
+  pull_request:
+    branches:
+      - main
+      - master
+    paths:
+      - 'aks-cluster/**'
+
 jobs:
   terraform:
-    name: Terraform
+    name: Terraform CI
     runs-on: ubuntu-latest
 
     env:
-      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
       ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
       ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
       ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
 
     defaults:
@@ -22,24 +32,23 @@ jobs:
         working-directory: ./aks-cluster
 
     steps:
-      - name: Checkout repository
+
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.6.6
 
       - name: Terraform Init
         run: terraform init
 
       - name: Terraform Format Check
-        run: terraform fmt -check
+        run: terraform fmt -check -recursive
 
       - name: Terraform Validate
         run: terraform validate
 
       - name: Terraform Plan
-        run: terraform plan
-
-      - name: Terraform Apply
-        if: github.ref == 'refs/heads/master'
-        run: terraform apply -auto-approve
+        run: terraform plan -no-color
