@@ -4,7 +4,7 @@ provider "azurerm" {
 
 terraform {
   backend "azurerm" {
-    resource_group_name  = "storage-rg"
+    resource_group_name  = "storage-statefile"
     storage_account_name = "indrastorage1211"
     container_name       = "terraformstatefile"
     key                  = "/azure-vm/terraform.tfstate"
