@@ -1,0 +1,42 @@
+name: Terraform Azure VM Deployment
+
+on:
+  push:
+    paths:
+      - 'aks-cluster/**'
+      - 'modules/aks/**'
+
+jobs:
+  terraform:
+    name: Terraform
+    runs-on: ubuntu-latest
+
+    env:
+      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init
+        working-directory: ./aks-cluster
+        run: terraform init
+
+      - name: Terraform Validate
+        working-directory: ./aks-cluster
+        run: terraform validate
+
+      - name: Terraform Plan
+        working-directory: ./aks-cluster
+        run: terraform plan
+
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/master'
+        working-directory: ./aks-cluster
+        run: terraform apply -auto-approve
