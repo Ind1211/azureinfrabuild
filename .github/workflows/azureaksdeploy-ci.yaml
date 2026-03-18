@@ -3,7 +3,6 @@ name: Terraform AKS CI
 on:
   push:
     branches:
-      - main
       - master
     paths:
       - 'aks-cluster/**'
@@ -11,7 +10,6 @@ on:
 
   pull_request:
     branches:
-      - main
       - master
     paths:
       - 'aks-cluster/**'
