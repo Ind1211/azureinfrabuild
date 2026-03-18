@@ -5,7 +5,7 @@ provider "azurerm" {
 resource "azurerm_resource_group" "storage" {
   name     = "storage-statefile"
   location = "West US 3"
-  
+
 }
 
 resource "azurerm_storage_account" "example" {

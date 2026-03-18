@@ -16,12 +16,12 @@ resource "azurerm_kubernetes_cluster" "aks" {
   private_cluster_enabled = true
 
   default_node_pool {
-    name                = "systempool"
-    vm_size             = "Standard_B2as_v2"
-    vnet_subnet_id      = var.subnet_id
+    name           = "systempool"
+    vm_size        = "Standard_B2as_v2"
+    vnet_subnet_id = var.subnet_id
 
-    node_count          = 1
-    max_pods            = 110
+    node_count = 1
+    max_pods   = 110
   }
 
   identity {

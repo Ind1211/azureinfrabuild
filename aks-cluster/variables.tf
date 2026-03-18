@@ -12,7 +12,7 @@ variable "cluster_name" {
 variable "ARM_CLIENT_ID" {
   description = "The Client ID of the Service Principal used for authentication with Azure."
   type        = string
-  
+
 }
 
 variable "ARM_CLIENT_SECRET" {
